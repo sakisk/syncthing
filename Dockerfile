@@ -1,15 +1,14 @@
-ARG GOVERSION=latest
-FROM golang:$GOVERSION AS builder
+FROM arm32v6/golang:alpine AS builder
 
 WORKDIR /src
 COPY . .
 
 ENV CGO_ENABLED=0
-ENV BUILD_HOST=syncthing.net
+ENV BUILD_HOST=sakiskoltsidas
 ENV BUILD_USER=docker
 RUN rm -f syncthing && go run build.go -no-upgrade build syncthing
 
-FROM alpine
+FROM arm32v6/alpine:latest
 
 EXPOSE 8384 22000 21027/udp
 
